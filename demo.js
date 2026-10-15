@@ -25,11 +25,8 @@
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true; controls.enablePan = false;
     controls.minDistance = 1.3; controls.maxDistance = 8;
-    const binary = atob(window.GAMMIRIS_RACK_GLB);
-    const bytes = new Uint8Array(binary.length);
-    for (let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
-    delete window.GAMMIRIS_RACK_GLB;
-    const gltf = await new GLTFLoader().parseAsync(bytes.buffer, '');
+    // Load the model as a separate static asset instead of embedding it in JavaScript.
+    const gltf = await new GLTFLoader().loadAsync('assets/models/rack.glb');
     const model = gltf.scene;
     const bounds = new THREE.Box3().setFromObject(model);
     const size = bounds.getSize(new THREE.Vector3());
